@@ -15,9 +15,8 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 
     <link href="static/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-    <link href="static/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link type="text/css" href="static/css/argon.css" rel="stylesheet">
 
 </head>
-<body class="bg-default">
+<body>
 
