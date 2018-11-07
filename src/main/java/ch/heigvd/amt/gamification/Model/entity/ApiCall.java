@@ -9,7 +9,6 @@ public class ApiCall extends BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.EAGER)
     private Application application;
 
-    @Column(nullable = false)
     private Date date;
 
     public ApiCall() {

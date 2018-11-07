@@ -1,27 +1,24 @@
 package ch.heigvd.amt.gamification.Model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Application.findByDeveloper", query = "Select a from Application a Where a.developer.id = :id"),
+    @NamedQuery(name = "Application.countForDeveloper", query = "Select COUNT(a) from Application a Where a.developer.id = :id")
+})
 public class Application extends BaseEntity<Long> {
 
-    @Column
     private String name;
 
-    @Column
     private String description;
 
-    @Column
     private UUID apiKey;
 
-    @Column
     private UUID apiSecret;
 
-    @Column
     private Date creation;
 
     @ManyToOne

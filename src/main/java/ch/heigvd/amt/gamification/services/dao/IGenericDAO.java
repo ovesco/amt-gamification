@@ -19,8 +19,6 @@ public interface IGenericDAO<T extends BaseEntity, PK> {
 
     public T find(PK id) throws EntityNotFoundException;
 
-    public List<T> findBy(Map<String, String> terms);
-
     public List<T> findAll();
 
     public List<T> paginate(Integer page, Integer amount, String sortField, String sortDirection);

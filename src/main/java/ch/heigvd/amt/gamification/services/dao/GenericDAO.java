@@ -4,12 +4,11 @@ import ch.heigvd.amt.gamification.Model.entity.BaseEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.Map;
 
-public class GenericDAO<T extends BaseEntity<PK>, PK> implements IGenericDAO<T, PK> {
+public class GenericDAO<T extends BaseEntity<PK>, PK extends Serializable> implements IGenericDAO<T, PK> {
 
     @PersistenceContext
     EntityManager em;
@@ -52,27 +51,6 @@ public class GenericDAO<T extends BaseEntity<PK>, PK> implements IGenericDAO<T, 
         if(result == null)
             throw new EntityNotFoundException(id, jpaEntityClass);
         return result;
-    }
-
-    @Override
-    public List<T> findBy(Map<String, String> terms) {
-
-        int i = 0;
-        StringBuilder sql = new StringBuilder("Select t from " + jpaEntityClass.getSimpleName() + " t ");
-
-        // Build sql
-        for(Map.Entry<String, String> entry : terms.entrySet())
-            sql.append(i > 0 ? "And " : "").append("Where ")
-                    .append(entry.getKey()).append(" = ").append(":val").append(i++).append(" ");
-
-        Query query = em.createQuery(sql.toString());
-
-        // Set parameters
-        i = 0;
-        for(Map.Entry<String, String> entry : terms.entrySet())
-            query.setParameter("val" + i++, entry.getValue());
-
-        return query.getResultList();
     }
 
     @Override

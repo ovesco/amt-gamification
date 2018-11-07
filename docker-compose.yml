@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: gamification
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - 'default'
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - 'db:db'
+    ports:
+      - '8090:80'
+    depends_on:
+      - 'db'
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test

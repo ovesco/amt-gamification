@@ -1,6 +1,7 @@
 package ch.heigvd.amt.gamification.controller.auth;
 
 import ch.heigvd.amt.gamification.Model.entity.Developer;
+import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.IDeveloperDAOLocal;
 
 import javax.ejb.EJB;
@@ -28,22 +29,32 @@ public class LoginServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String email    = request.getParameter("email");
-        String password = request.getParameter("password");
-        String target   = request.getParameter("targetUrl");
+        boolean stay    = true;
+        String email    = ServletUtil.getString(request.getParameter("email"), null);
+        String password = ServletUtil.getString(request.getParameter("password"), null);
+        String target   = ServletUtil.getString(request.getParameter("targetUrl"), null);
 
+        System.out.println(email);
+        System.out.println(password);
         if(target == null)
             target = "/developer/applications";
         target = request.getContextPath() + target;
 
-        Developer developer = developerDAO.findByEmail(email);
+        if(email != null) {
 
-        if(developer != null && developer.getPassword().equals(password)){
-            request.getSession().setAttribute("token", developer.getId());
-            response.sendRedirect(target);
+            Developer developer = developerDAO.findByEmail(email);
+
+            if(developer != null && developer.getPassword().equals(password)){
+                request.getSession().setAttribute("token", developer.getId());
+                response.sendRedirect(target);
+                stay = false;
+            }
         }
 
-        request.setAttribute("error", request.getMethod().toUpperCase().equals("POST"));
-        request.getRequestDispatcher("/WEB-INF/pages/auth/auth.jsp").forward(request, response);
+        if(stay) {
+            request.setAttribute("email", email);
+            request.setAttribute("method", request.getMethod().toUpperCase());
+            request.getRequestDispatcher("/WEB-INF/pages/auth/login.jsp").forward(request, response);
+        }
     }
 }

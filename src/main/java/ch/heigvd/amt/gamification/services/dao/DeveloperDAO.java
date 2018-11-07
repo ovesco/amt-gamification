@@ -12,13 +12,7 @@ public class DeveloperDAO extends GenericDAO<Developer, Long> implements IDevelo
 
     @Override
     public Developer findByEmail(String email) {
-
-        Map<String, String> fields = new HashMap<>();
-        fields.put("email", email);
-
-        List<Developer> result = findBy(fields);
-
-        return result.size() == 1 ? result.get(0) : null;
-
+        List<Developer> result = em.createNamedQuery("Developer.findByEmail").setParameter("email", email).getResultList();
+        return result.size() == 0 ? null : result.get(0);
     }
 }

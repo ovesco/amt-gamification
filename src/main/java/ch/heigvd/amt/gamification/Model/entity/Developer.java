@@ -1,37 +1,28 @@
 package ch.heigvd.amt.gamification.Model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Developer.findByEmail", query = "Select d from Developer d where d.email = :email")
+})
 public class Developer extends BaseEntity<Long> {
 
-    @Column
     private String email;
 
-    @Column
     private String password;
 
-    @Column
     private String firstName;
 
-    @Column
     private String lastName;
 
-    @Column
     private String street;
 
-    @Column
     private Integer npa;
 
-    @Column
     private String city;
-
-    @OneToMany(mappedBy = "developer")
-    private List<Application> applications = new LinkedList<>();
 
     public String getEmail() {
         return email;
@@ -87,17 +78,5 @@ public class Developer extends BaseEntity<Long> {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public List<Application> getApplications() {
-        return applications;
-    }
-
-    public void addApplication(Application application) {
-        this.applications.add(application);
-    }
-
-    public void removeApplication(Application application) {
-        this.applications.remove(application);
     }
 }
