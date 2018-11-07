@@ -16,6 +16,6 @@ public class ApplicationDAO extends GenericDAO<Application, Long> implements IAp
 
     @Override
     public Long countDeveloperApps(Long id) {
-        return (Long)em.createNamedQuery("Application.findByDeveloper").setParameter("id", id).getSingleResult();
+        return (Long)em.createNamedQuery("Application.countForDeveloper").setParameter("id", id).getSingleResult();
     }
 }

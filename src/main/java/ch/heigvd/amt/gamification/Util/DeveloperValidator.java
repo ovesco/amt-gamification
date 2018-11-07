@@ -20,15 +20,26 @@ public class DeveloperValidator {
         this.base = new Developer();
     }
 
+    public Developer getDeveloper() {
+        return base;
+    }
+
+    public void handlePassword() {
+        String password = getOrThrow("password");
+        if(password.length() < 8)
+            errors.put("password", "Password must be at least 8 characters long");
+        else
+            base.setPassword(password);
+    }
+
     public DeveloperValidator(HttpServletRequest request, Developer base) {
         this(request);
         this.base = base;
     }
 
-    public Developer populate() {
+    public void populate() {
 
         String email        = getOrThrow("email");
-        String password     = getOrThrow("password");
         String city         = getOrThrow("city");
         String npa          = getOrThrow("npa");
         String street       = getOrThrow("street");
@@ -38,20 +49,13 @@ public class DeveloperValidator {
         if(!EmailValidator.getInstance().isValid(email))
             errors.put("email", "Not an email address");
 
-        // If new account, check password
-        if(password.length() < 8)
-            errors.put("password", "Password should be at least 8 characters long");
-
         Integer nnpa = npa.isEmpty() ? null : Integer.valueOf(npa);
         base.setEmail(email);
-        base.setPassword(password);
         base.setCity(city);
         base.setNpa(nnpa);
         base.setStreet(street);
         base.setFirstName(firstName);
         base.setLastName(lastName);
-
-        return base;
     }
 
     public Map<String, String> getErrors() {

@@ -33,7 +33,9 @@ public class RegisterServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         DeveloperValidator validator = new DeveloperValidator(request);
-        Developer developer = validator.populate();
+        validator.populate();
+        validator.handlePassword();
+        Developer developer = validator.getDeveloper();
 
         // No errors, go to auth
         if(validator.getErrors().size() == 0) {

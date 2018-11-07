@@ -35,23 +35,13 @@
                             <h6 class="heading-small text-muted mb-4">User information</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="input-group input-group-alternative">
                                             <input class="form-control ${errors.containsKey('email') ? 'is-invalid' : ''}" name="email" value="${dev.email}" placeholder="Email" type="email">
                                         </div>
                                         <c:if test="${errors.containsKey('email')}"><p class="text-danger">${errors.get('email')}</p></c:if>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <div class="input-group input-group-alternative">
-                                                <input class="form-control ${errors.containsKey('password') ? 'is-invalid' : ''}" placeholder="Password" name="password" type="password">
-                                            </div>
-                                            <c:if test="${errors.containsKey('password')}"><p class="text-danger">${errors.get('password')}</p></c:if>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <div class="input-group input-group-alternative">
                                                 <input class="form-control ${errors.containsKey('firstName') ? 'is-invalid' : ''}" name="firstName" value="${dev.firstName}" placeholder="First name" type="text">
@@ -59,7 +49,7 @@
                                             <c:if test="${errors.containsKey('firstName')}"><p class="text-danger">${errors.get('firstName')}</p></c:if>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <div class="input-group input-group-alternative">
                                                 <input class="form-control ${errors.containsKey('lastName') ? 'is-invalid' : ''}" name="lastName" value="${dev.lastName}" placeholder="Last name" type="text">
@@ -67,6 +57,7 @@
                                             <c:if test="${errors.containsKey('lastName')}"><p class="text-danger">${errors.get('lastName')}</p></c:if>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                             <hr class="my-4" />

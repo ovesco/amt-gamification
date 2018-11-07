@@ -17,7 +17,7 @@
         </div>
 
         <div class="container-fluid d-flex justify-content-end">
-            <button class="btn btn-secondary" data-toggle="modal" data-target="#new-app-modal">New application</button>
+            <a href="/game/developer/application" class="btn btn-secondary">New application</a>
         </div>
     </div>
 
@@ -50,9 +50,12 @@
                                         <td>${app.apiKey}</td>
                                         <td>${app.apiSecret}</td>
                                         <td>
-                                            <button class="btn btn-icon btn-danger" type="button">
+                                            <a href="/game/developer/application?action=update&appId=${app.id}" class="btn btn-icon btn-primary btn-sm">
+                                                <span class="btn-inner--icon"><i class="ni ni-settings-gear-65"></i></span>
+                                            </a>
+                                            <a href="/game/developer/application?action=delete&appId=${app.id}" class="btn btn-icon btn-danger btn-sm">
                                                 <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -62,25 +65,11 @@
                     <div class="card-footer py-4">
                         <nav>
                             <ul class="pagination justify-content-end mb-0">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">
-                                        <i class="fas fa-angle-left"></i>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="fas fa-angle-right"></i>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
+                                <c:forEach var="i" begin="1" end="${pages}">
+                                    <li class="page-item active">
+                                        <a class="page-link ${page == i ? 'active' : ''}" href="/game/developer/applications?page=${i}">${i}</a>
+                                    </li>
+                                </c:forEach>
                             </ul>
                         </nav>
                     </div>
@@ -91,36 +80,5 @@
     </div>
 
 </div>
-
-<div class="modal fade" id="new-app-modal" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create a new application</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post">
-                    <div class="form-group">
-                        <input type="text" placeholder="Application name" class="form-control" />
-                    </div>
-
-                    <div class="form-group">
-                        <textarea type="text" placeholder="Description" class="form-control"></textarea>
-                    </div>
-
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Register app</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 <%@include file="../includes/footer.jsp" %>

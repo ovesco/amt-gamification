@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-public class SecurityFilter implements Filter {
+public class DeveloperSecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -13,6 +13,7 @@ public class SecurityFilter implements Filter {
 
         boolean secured = true;
 
+        System.out.println(path);
         if(path.startsWith("/static")) secured = false;
         else if(path.startsWith("/auth")) secured = false;
         else {
