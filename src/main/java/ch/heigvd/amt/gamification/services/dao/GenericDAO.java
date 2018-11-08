@@ -54,6 +54,17 @@ public class GenericDAO<T extends BaseEntity<PK>, PK extends Serializable> imple
     }
 
     @Override
+    public List<T> findPaginate(Integer page, Integer amount) {
+        return em.createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t")
+                .setMaxResults(amount).setFirstResult(amount*page).getResultList();
+    }
+
+    @Override
+    public Long findAmount() {
+        return (Long)em.createQuery("Select COUNT(t) from " + jpaEntityClass.getSimpleName() + " t").getSingleResult();
+    }
+
+    @Override
     public List<T> findAll() {
         return em.createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t").getResultList();
     }

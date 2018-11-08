@@ -20,3 +20,4 @@
 </head>
 <body>
 
+<%@include file="../includes/menu.jsp" %>

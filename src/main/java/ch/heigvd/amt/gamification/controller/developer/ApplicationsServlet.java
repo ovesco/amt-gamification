@@ -24,12 +24,12 @@ public class ApplicationsServlet extends HttpServlet {
 
         Integer page            = ServletUtil.getInt(request.getParameter("page"), 1);
         Integer resultsPerPage  = ServletUtil.getInt(request.getParameter("amount"), 10);
-        Long devId              = ServletUtil.getDevId(request);
+        Long devId              = ServletUtil.getAccountId(request);
         List<Application> apps  = applicationDAO.findDeveloperApps(devId, page-1, resultsPerPage);
         Long amountOfApps       = applicationDAO.countDeveloperApps(devId);
 
         request.setAttribute("applications", apps);
-        request.setAttribute("pages", amountOfApps);
+        request.setAttribute("pages", (int)Math.ceil(amountOfApps / Double.valueOf(resultsPerPage)));
         request.setAttribute("current", page);
         request.getRequestDispatcher("/WEB-INF/pages/developer/applications.jsp").forward(request, response);
     }

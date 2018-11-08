@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ServletUtil {
 
-    public static Long getDevId(HttpServletRequest request) {
-        return (Long)request.getSession().getAttribute("token");
+    public static Long getAccountId(HttpServletRequest request) {
+        return (Long)request.getSession().getAttribute(SecurityToken.DEVELOPER_AUTH_TOKEN);
     }
 
     public static String getString(String field, String def) {

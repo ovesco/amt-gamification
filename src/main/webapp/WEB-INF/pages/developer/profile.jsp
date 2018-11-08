@@ -1,5 +1,4 @@
 <%@include file="../includes/header.jsp" %>
-<%@include file="../includes/devmenu.jsp" %>
 
 <div class="main-content">
 

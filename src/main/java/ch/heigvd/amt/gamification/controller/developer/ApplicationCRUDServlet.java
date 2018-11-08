@@ -1,12 +1,12 @@
 package ch.heigvd.amt.gamification.controller.developer;
 
+import ch.heigvd.amt.gamification.Model.entity.Account;
 import ch.heigvd.amt.gamification.Model.entity.Application;
-import ch.heigvd.amt.gamification.Model.entity.Developer;
 import ch.heigvd.amt.gamification.Util.CRUD;
 import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IApplicationDAOLocal;
-import ch.heigvd.amt.gamification.services.dao.IDeveloperDAOLocal;
+import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -24,7 +24,7 @@ public class ApplicationCRUDServlet extends HttpServlet {
     IApplicationDAOLocal applicationDAO;
 
     @EJB
-    IDeveloperDAOLocal developerDAO;
+    IAccountDAOLocal accountDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -59,7 +59,7 @@ public class ApplicationCRUDServlet extends HttpServlet {
             Application application = applicationDAO.find(appId);
 
             // Check that dev owns app
-            if(!devId.equals(application.getDeveloper().getId()))
+            if(!devId.equals(application.getAccount().getId()))
                 throw new ServletException();
 
             applicationDAO.delete(application);
@@ -72,7 +72,7 @@ public class ApplicationCRUDServlet extends HttpServlet {
 
     private void persist(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        Long devId              = (Long)request.getSession().getAttribute("token");
+        Long devId              = ServletUtil.getAccountId(request);
         Long appId              = ServletUtil.getLong(request.getParameter("appId"), null);
         String action           = ServletUtil.getString(request.getParameter("action"), CRUD.CREATE);
         String appName          = ServletUtil.getString(request.getParameter("name"), null);
@@ -108,8 +108,8 @@ public class ApplicationCRUDServlet extends HttpServlet {
                 application.setDescription(appDescription);
 
                 if(action.equals(CRUD.CREATE)) {
-                    Developer developer  = developerDAO.find(devId);
-                    application.setDeveloper(developer);
+                    Account account = accountDAO.find(devId);
+                    application.setAccount(account);
                     applicationDAO.create(application);
                 }
                 else {

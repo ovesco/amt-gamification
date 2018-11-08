@@ -1,8 +1,9 @@
 package ch.heigvd.amt.gamification.controller.auth;
 
-import ch.heigvd.amt.gamification.Model.entity.Developer;
+import ch.heigvd.amt.gamification.Model.entity.Account;
+import ch.heigvd.amt.gamification.Util.SecurityToken;
 import ch.heigvd.amt.gamification.Util.ServletUtil;
-import ch.heigvd.amt.gamification.services.dao.IDeveloperDAOLocal;
+import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -16,7 +17,7 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
 
     @EJB
-    private IDeveloperDAOLocal developerDAO;
+    private IAccountDAOLocal developerDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,10 +43,10 @@ public class LoginServlet extends HttpServlet {
 
         if(email != null) {
 
-            Developer developer = developerDAO.findByEmail(email);
+            Account account = developerDAO.findByEmail(email);
 
-            if(developer != null && developer.getPassword().equals(password)){
-                request.getSession().setAttribute("token", developer.getId());
+            if(account != null && account.getPassword().equals(password)){
+                request.getSession().setAttribute(SecurityToken.DEVELOPER_AUTH_TOKEN, account.getId());
                 response.sendRedirect(target);
                 stay = false;
             }

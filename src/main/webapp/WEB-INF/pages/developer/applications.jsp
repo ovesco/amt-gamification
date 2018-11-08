@@ -1,7 +1,4 @@
 <%@include file="../includes/header.jsp" %>
-<%@include file="../includes/devmenu.jsp" %>
-
-
 
 <div class="main-content">
 
@@ -50,10 +47,10 @@
                                         <td>${app.apiKey}</td>
                                         <td>${app.apiSecret}</td>
                                         <td>
-                                            <a href="/game/developer/application?action=update&appId=${app.id}" class="btn btn-icon btn-primary btn-sm">
+                                            <a href="/game/account/application?action=update&appId=${app.id}" class="btn btn-icon btn-primary btn-sm">
                                                 <span class="btn-inner--icon"><i class="ni ni-settings-gear-65"></i></span>
                                             </a>
-                                            <a href="/game/developer/application?action=delete&appId=${app.id}" class="btn btn-icon btn-danger btn-sm">
+                                            <a href="/game/account/application?action=delete&appId=${app.id}" class="btn btn-icon btn-danger btn-sm">
                                                 <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
                                             </a>
                                         </td>
@@ -64,13 +61,9 @@
                     </div>
                     <div class="card-footer py-4">
                         <nav>
-                            <ul class="pagination justify-content-end mb-0">
-                                <c:forEach var="i" begin="1" end="${pages}">
-                                    <li class="page-item active">
-                                        <a class="page-link ${page == i ? 'active' : ''}" href="/game/developer/applications?page=${i}">${i}</a>
-                                    </li>
-                                </c:forEach>
-                            </ul>
+                            <jsp:include page="../includes/pagination.jsp">
+                                <jsp:param name="route" value="/game/developer/applications" />
+                            </jsp:include>
                         </nav>
                     </div>
                 </div>

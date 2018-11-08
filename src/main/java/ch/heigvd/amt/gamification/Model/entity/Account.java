@@ -1,14 +1,12 @@
 package ch.heigvd.amt.gamification.Model.entity;
 
 import javax.persistence.*;
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Developer.findByEmail", query = "Select d from Developer d where d.email = :email")
+    @NamedQuery(name = "Account.findByEmail", query = "Select d from Account d where d.email = :email")
 })
-public class Developer extends BaseEntity<Long> {
+public class Account extends BaseEntity<Long> {
 
     private String email;
 
@@ -23,6 +21,10 @@ public class Developer extends BaseEntity<Long> {
     private Integer npa;
 
     private String city;
+
+    private Boolean admin = false;
+
+    private Boolean banned = false;
 
     public String getEmail() {
         return email;
@@ -78,5 +80,21 @@ public class Developer extends BaseEntity<Long> {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
+
+    public Boolean getBanned() {
+        return banned;
+    }
+
+    public void setBanned(Boolean banned) {
+        this.banned = banned;
     }
 }

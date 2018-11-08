@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
 
@@ -16,11 +18,22 @@
                     </a>
                 </li>
             </ul>
-            <!-- Divider -->
+
+            <c:if test="${not empty currentAccount && currentAccount.admin}">
+                <hr class="my-3">
+                <h6 class="navbar-heading text-muted">Admin section</h6>
+
+                <ul class="navbar-nav mb-md-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/game/admin/accounts">
+                            <i class="ni ni-glasses-2"></i> Accounts
+                        </a>
+                    </li>
+                </ul>
+            </c:if>
             <hr class="my-3">
-            <!-- Heading -->
             <h6 class="navbar-heading text-muted">Account</h6>
-            <!-- Navigation -->
+
             <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
                     <a class="nav-link" href="/game/developer/profile">

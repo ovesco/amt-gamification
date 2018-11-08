@@ -6,8 +6,8 @@ import java.util.UUID;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Application.findByDeveloper", query = "Select a from Application a Where a.developer.id = :id"),
-    @NamedQuery(name = "Application.countForDeveloper", query = "Select COUNT(a) from Application a Where a.developer.id = :id")
+    @NamedQuery(name = "Application.findByDeveloper", query = "Select a from Application a Where a.account.id = :id"),
+    @NamedQuery(name = "Application.countForDeveloper", query = "Select COUNT(a) from Application a Where a.account.id = :id")
 })
 public class Application extends BaseEntity<Long> {
 
@@ -22,7 +22,7 @@ public class Application extends BaseEntity<Long> {
     private Date creation;
 
     @ManyToOne
-    private Developer developer;
+    private Account account;
 
     public Application() {
 
@@ -47,12 +47,12 @@ public class Application extends BaseEntity<Long> {
         this.description = description;
     }
 
-    public Developer getDeveloper() {
-        return developer;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setDeveloper(Developer developer) {
-        this.developer = developer;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     // Automatically set

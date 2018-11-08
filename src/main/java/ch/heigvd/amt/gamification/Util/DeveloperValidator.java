@@ -1,6 +1,6 @@
 package ch.heigvd.amt.gamification.Util;
 
-import ch.heigvd.amt.gamification.Model.entity.Developer;
+import ch.heigvd.amt.gamification.Model.entity.Account;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,14 +13,14 @@ public class DeveloperValidator {
 
     private Map<String, String> errors = new HashMap<>();
 
-    private Developer base;
+    private Account base;
 
     public DeveloperValidator(HttpServletRequest request) {
         this.request = request;
-        this.base = new Developer();
+        this.base = new Account();
     }
 
-    public Developer getDeveloper() {
+    public Account getDeveloper() {
         return base;
     }
 
@@ -32,7 +32,7 @@ public class DeveloperValidator {
             base.setPassword(password);
     }
 
-    public DeveloperValidator(HttpServletRequest request, Developer base) {
+    public DeveloperValidator(HttpServletRequest request, Account base) {
         this(request);
         this.base = base;
     }

@@ -1,8 +1,8 @@
 package ch.heigvd.amt.gamification.controller.auth;
 
-import ch.heigvd.amt.gamification.Model.entity.Developer;
+import ch.heigvd.amt.gamification.Model.entity.Account;
 import ch.heigvd.amt.gamification.Util.DeveloperValidator;
-import ch.heigvd.amt.gamification.services.dao.IDeveloperDAOLocal;
+import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class RegisterServlet extends HttpServlet {
 
     @EJB
-    private IDeveloperDAOLocal DeveloperDAO;
+    private IAccountDAOLocal DeveloperDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,11 +35,11 @@ public class RegisterServlet extends HttpServlet {
         DeveloperValidator validator = new DeveloperValidator(request);
         validator.populate();
         validator.handlePassword();
-        Developer developer = validator.getDeveloper();
+        Account account = validator.getDeveloper();
 
         // No errors, go to auth
         if(validator.getErrors().size() == 0) {
-            DeveloperDAO.create(developer);
+            DeveloperDAO.create(account);
             response.sendRedirect(request.getContextPath() + "/auth/login");
         }
 
@@ -49,7 +49,7 @@ public class RegisterServlet extends HttpServlet {
                     ? new HashMap<String, String>()
                     : validator.getErrors();
 
-            request.setAttribute("dev", developer);
+            request.setAttribute("dev", account);
             request.setAttribute("errors", errors);
             request.getRequestDispatcher("/WEB-INF/pages/auth/register.jsp").forward(request, response);
         }
