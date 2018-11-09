@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
             Account account = developerDAO.findByEmail(email);
 
             if(account != null && account.getPassword().equals(password)){
-                request.getSession().setAttribute(SecurityToken.DEVELOPER_AUTH_TOKEN, account.getId());
+                ServletUtil.setAccountId(request, account.getId());
                 response.sendRedirect(target);
                 stay = false;
             }

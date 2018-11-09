@@ -1,18 +1,18 @@
 package ch.heigvd.amt.gamification.controller.filters;
 
-import ch.heigvd.amt.gamification.Util.SecurityToken;
-
+import ch.heigvd.amt.gamification.Util.ServletUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AdminSecurityFilter extends  BaseSecurityFilter {
+public class DeveloperSecurityFilter extends BaseSecurityFilter {
     @Override
     protected String getProtectedPath() {
-        return "/admin";
+        return "/developer";
     }
 
     @Override
     Boolean accessGranted(HttpServletRequest request, HttpServletResponse response) {
-        return request.getSession().getAttribute(SecurityToken.ADMIN_AUTH_TOKEN) != null;
+        System.out.println("DEVELOPER SECURITY FILTER");
+        return ServletUtil.getAccountId(request) != null;
     }
 }

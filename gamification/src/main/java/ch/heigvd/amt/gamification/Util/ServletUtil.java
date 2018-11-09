@@ -5,7 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 public class ServletUtil {
 
     public static Long getAccountId(HttpServletRequest request) {
-        return (Long)request.getSession().getAttribute(SecurityToken.DEVELOPER_AUTH_TOKEN);
+        return (Long)request.getSession().getAttribute(SecurityToken.ACCOUNT_ID);
+    }
+
+    public static void setAccountId(HttpServletRequest request, Long accountId) {
+        request.getSession().setAttribute(SecurityToken.ACCOUNT_ID, accountId);
     }
 
     public static String getString(String field, String def) {
