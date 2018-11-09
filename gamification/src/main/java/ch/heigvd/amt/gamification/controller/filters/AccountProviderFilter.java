@@ -1,6 +1,7 @@
 package ch.heigvd.amt.gamification.controller.filters;
 
 import ch.heigvd.amt.gamification.Model.entity.Account;
+import ch.heigvd.amt.gamification.Util.SecurityToken;
 import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
@@ -23,7 +24,8 @@ public class AccountProviderFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        Long accountId = ServletUtil.getAccountId((HttpServletRequest)servletRequest);
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        Long accountId = ServletUtil.getAccountId(request);
 
         if(accountId != null) {
             try {

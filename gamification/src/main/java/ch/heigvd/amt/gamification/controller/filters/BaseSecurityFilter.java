@@ -22,7 +22,7 @@ abstract public class BaseSecurityFilter implements Filter {
     abstract Boolean accessGranted(HttpServletRequest request, HttpServletResponse response);
 
     protected void accessDeniedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/pages/auth/auth.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/auth/login");
     }
 
     @Override
@@ -36,8 +36,6 @@ abstract public class BaseSecurityFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String path = request.getRequestURI().substring(request.getContextPath().length());
-
-        System.out.println("path: " + path);
 
         if(path.startsWith(getProtectedPath()) && !accessGranted(request, response))
             accessDeniedAction(request, response);
