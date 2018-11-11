@@ -7,6 +7,7 @@ import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IApplicationDAOLocal;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
+import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -25,6 +26,9 @@ public class ApplicationCRUDServlet extends HttpServlet {
 
     @EJB
     IAccountDAOLocal accountDAO;
+
+    @EJB
+    IFlashBagLocal flashbag;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -63,6 +67,7 @@ public class ApplicationCRUDServlet extends HttpServlet {
                 throw new ServletException();
 
             applicationDAO.delete(application);
+            flashbag.info("Successfully removed application [" + application.getName() + "]");
             response.sendRedirect(request.getContextPath() + "/developer/applications");
 
         } catch (EntityNotFoundException e) {
@@ -111,8 +116,10 @@ public class ApplicationCRUDServlet extends HttpServlet {
                     Account account = accountDAO.find(devId);
                     application.setAccount(account);
                     applicationDAO.create(application);
+                    flashbag.success("Application created");
                 }
                 else {
+                    flashbag.info("Application updated");
                     applicationDAO.update(application);
                 }
 

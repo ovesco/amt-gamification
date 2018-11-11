@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "ApiCall.findByApplication", query = "Select a from ApiCall a where a.application.id = :id")
+})
 public class ApiCall extends BaseEntity<Long> {
 
     @ManyToOne(fetch = FetchType.EAGER)

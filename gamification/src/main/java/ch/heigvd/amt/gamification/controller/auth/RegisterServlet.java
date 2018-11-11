@@ -3,6 +3,8 @@ package ch.heigvd.amt.gamification.controller.auth;
 import ch.heigvd.amt.gamification.Model.entity.Account;
 import ch.heigvd.amt.gamification.Util.DeveloperValidator;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
+import ch.heigvd.amt.gamification.services.security.SecurityManager;
+import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -20,6 +22,12 @@ public class RegisterServlet extends HttpServlet {
     @EJB
     private IAccountDAOLocal DeveloperDAO;
 
+    @EJB
+    private IFlashBagLocal flashBag;
+
+    @EJB
+    private SecurityManager manager;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -32,10 +40,12 @@ public class RegisterServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        DeveloperValidator validator = new DeveloperValidator(request);
+        DeveloperValidator validator = new DeveloperValidator(request, manager.createAccount());
+        String password = validator.verifyPassword();
         validator.populate();
-        validator.handlePassword();
+
         Account account = validator.getDeveloper();
+        account.setPassword(manager.hash(account, password));
 
         // No errors, go to auth
         if(validator.getErrors().size() == 0) {
@@ -48,6 +58,8 @@ public class RegisterServlet extends HttpServlet {
             Map<String, String> errors = request.getMethod().toUpperCase().equals("GET")
                     ? new HashMap<String, String>()
                     : validator.getErrors();
+
+            flashBag.warning("Some errors appeared, please review form");
 
             request.setAttribute("dev", account);
             request.setAttribute("errors", errors);
