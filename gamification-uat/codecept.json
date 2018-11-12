@@ -1,0 +1,28 @@
+{
+  "output": "./output",
+  "helpers": {
+    "Puppeteer": {
+      "url": "localhost:8080/game",
+      "show": true
+    }
+  },
+  "include": {
+    "I": "./steps_file.js",
+    "loginPage": "./pages/login.js",
+    "registerPage": "./pages/register.js",
+    "applicationsPage": "./pages/applications.js"
+  },
+  "mocha": {},
+  "bootstrap": false,
+  "teardown": null,
+  "hooks": [],
+  "gherkin": {},
+  "plugins": {
+    "screenshotOnFail": {
+      "enabled": true
+    }
+  },
+  "tests": "./tests/*_test.js",
+  "timeout": 10000,
+  "name": "gamification-uat"
+}
