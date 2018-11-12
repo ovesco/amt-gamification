@@ -19,7 +19,7 @@
                 </li>
             </ul>
 
-            <c:if test="${not empty currentAccount && currentAccount.admin}">
+            <c:if test="${not empty _currentAccount && _currentAccount.admin}">
                 <hr class="my-3">
                 <h6 class="navbar-heading text-muted">Admin section</h6>
 

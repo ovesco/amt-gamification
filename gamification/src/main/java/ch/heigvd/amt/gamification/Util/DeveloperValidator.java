@@ -15,25 +15,20 @@ public class DeveloperValidator {
 
     private Account base;
 
-    public DeveloperValidator(HttpServletRequest request) {
-        this.request = request;
-        this.base = new Account();
-    }
-
     public Account getDeveloper() {
         return base;
     }
 
-    public void handlePassword() {
+    public String verifyPassword() {
         String password = getOrThrow("password");
         if(password.length() < 8)
             errors.put("password", "Password must be at least 8 characters long");
-        else
-            base.setPassword(password);
+
+        return password;
     }
 
     public DeveloperValidator(HttpServletRequest request, Account base) {
-        this(request);
+        this.request = request;
         this.base = base;
     }
 

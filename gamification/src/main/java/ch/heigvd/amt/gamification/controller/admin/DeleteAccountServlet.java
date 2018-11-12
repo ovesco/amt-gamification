@@ -14,38 +14,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "makeBanServlet", urlPatterns = {"/admin/ban"})
-public class MakeBanServlet extends HttpServlet {
+@WebServlet(name = "deleteAccountServlet", urlPatterns = {"/admin/delete"})
+public class DeleteAccountServlet extends HttpServlet {
 
     @EJB
     IAccountDAOLocal accountDAO;
 
     @EJB
-     IFlashBagLocal flashbag;
+    IFlashBagLocal flashbag;
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        // ban or unban
-        String action   = ServletUtil.getString(request.getParameter("action"), "ban").toLowerCase();
         Long accountId  = ServletUtil.getLong(request.getParameter("accountId"), null);
+        Long currentId  = ServletUtil.getAccountId(request);
 
-        if(!action.equals("ban") && !action.equals("unban"))
-            throw new ServletException();
-
-        if(accountId == null) {
-            flashbag.warning("Account not found");
-        }
-
-        else {
+        if(accountId != null) {
             try {
-
                 Account account = accountDAO.find(accountId);
-                account.setBanned(action.equals("ban"));
-                accountDAO.update(account);
-                flashbag.info("Account " + account.getEmail() + " got " + action + "ned");
+                accountDAO.delete(account);
+                flashbag.info("Account successfully deleted");
+
+                // Logout
+                if(currentId.equals(accountId)) {
+                    response.sendRedirect(request.getContextPath() + "/auth/logout");
+                    return;
+                }
 
             } catch (EntityNotFoundException e) {
-                throw new ServletException();
+                // Do nothing
             }
         }
 

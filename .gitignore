@@ -1,4 +1,5 @@
 /gamification/.idea
 /gamification/target
 .idea
+/gamification/gamification.iml
 /gamification-uat/node_modules

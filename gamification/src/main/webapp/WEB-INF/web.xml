@@ -24,7 +24,7 @@
 
     <filter>
         <filter-name>AccountProviderFilter</filter-name>
-        <filter-class>ch.heigvd.amt.gamification.controller.filters.AccountProviderFilter</filter-class>
+        <filter-class>ch.heigvd.amt.gamification.controller.filters.TemplateProvidingFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AccountProviderFilter</filter-name>
