@@ -13,9 +13,7 @@ import java.util.Date;
 @Stateless
 public class EmailSender implements IEmailSenderLocal {
 
-    /*
-    @Resource(lookup = " mail/gamification")
-    */
+    @Resource(name = "mail/gamification")
     private Session mailSession;
 
 

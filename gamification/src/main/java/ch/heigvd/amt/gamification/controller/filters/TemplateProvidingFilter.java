@@ -4,7 +4,6 @@ import ch.heigvd.amt.gamification.Model.entity.Account;
 import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
-import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.*;
@@ -16,9 +15,6 @@ public class TemplateProvidingFilter implements Filter {
     @EJB
     IAccountDAOLocal accountDAO;
 
-    @EJB
-    IFlashBagLocal flashBag;
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -27,13 +23,13 @@ public class TemplateProvidingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        // Provide session messages
-        String path = ((HttpServletRequest)servletRequest).getRequestURI();
-        if(!path.startsWith("/game/static"))
-            servletRequest.setAttribute("_messages", flashBag.getMessages());
-
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         Long accountId = ServletUtil.getAccountId(request);
+
+        // Provide session messages
+        String path = request.getRequestURI();
+        if(!path.startsWith("/game/static"))
+            servletRequest.setAttribute("_messages", ServletUtil.getFlashBag(request).getMessages());
 
         // Provide account
         if(accountId != null) {

@@ -21,4 +21,3 @@
 <body>
 
 <%@include file="menu.jsp" %>
-<%@include file="../includes/notifications.jsp" %>

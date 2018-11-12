@@ -1,10 +1,10 @@
 package ch.heigvd.amt.gamification.controller.admin;
 
 import ch.heigvd.amt.gamification.Model.entity.Account;
+import ch.heigvd.amt.gamification.Util.FlashBag;
 import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
-import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -20,10 +20,9 @@ public class MakeAdminServlet extends HttpServlet {
     @EJB
     IAccountDAOLocal accountDAO;
 
-    @EJB
-    IFlashBagLocal flashbag;
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        FlashBag bag    = ServletUtil.getFlashBag(request);
 
         // promote or demote
         String action   = ServletUtil.getString(request.getParameter("action"), "promote").toLowerCase();
@@ -34,7 +33,7 @@ public class MakeAdminServlet extends HttpServlet {
             throw new ServletException();
 
         if(accountId == null) {
-            flashbag.warning("Account not found!");
+            bag.warning("Account not found!");
         }
 
         else {
@@ -44,7 +43,7 @@ public class MakeAdminServlet extends HttpServlet {
                 account.setAdmin(action.equals("promote"));
                 accountDAO.update(account);
 
-                flashbag.info("Account " + account.getEmail() + " just got " + action + "d to admin!");
+                bag.info("Account " + account.getEmail() + " just got " + action + "d to admin!");
 
                 // If demoted currently connected user, send back to profile page
                 if(accountId.equals(currentId) && action.equals("demote")) {

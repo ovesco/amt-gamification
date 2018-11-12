@@ -1,12 +1,12 @@
 package ch.heigvd.amt.gamification.controller.admin;
 
 import ch.heigvd.amt.gamification.Model.entity.Account;
+import ch.heigvd.amt.gamification.Util.FlashBag;
 import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
 import ch.heigvd.amt.gamification.services.email.IEmailSenderLocal;
 import ch.heigvd.amt.gamification.services.security.SecurityManager;
-import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
 
 import javax.ejb.EJB;
 import javax.mail.MessagingException;
@@ -30,14 +30,12 @@ public class ResetPasswordServlet extends HttpServlet {
     @EJB
     IEmailSenderLocal emailSender;
 
-    @EJB
-    IFlashBagLocal flashBag;
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String email    = ServletUtil.getString(request.getParameter("email"), null);
         Integer npa     = ServletUtil.getInt(request.getParameter("npa"), null);
         String city     = ServletUtil.getString(request.getParameter("city"), null);
+        FlashBag bag    = ServletUtil.getFlashBag(request);
 
         if(email == null || npa == null || city == null) {
             response.getWriter().println("No email could be found for ");
@@ -58,12 +56,12 @@ public class ResetPasswordServlet extends HttpServlet {
 
             // Not logged in, show message email sent
             if(ServletUtil.getAccountId(request) == null) {
-                flashBag.info("Password for email " + account.getEmail() + " has been reset, check your emails!");
+                bag.info("Password for email " + account.getEmail() + " has been reset, check your emails!");
                 response.sendRedirect(request.getContextPath() + "/auth/login");
             }
 
             else {
-                flashBag.info("Password for email " + account.getEmail() + " has been reset");
+                bag.info("Password for email " + account.getEmail() + " has been reset");
                 response.sendRedirect(request.getContextPath() + "/admin/accounts");
             }
 

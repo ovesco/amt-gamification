@@ -1,10 +1,11 @@
 package ch.heigvd.amt.gamification.controller.auth;
 
 import ch.heigvd.amt.gamification.Model.entity.Account;
+import ch.heigvd.amt.gamification.Util.FlashBag;
+import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
 import ch.heigvd.amt.gamification.services.security.IAccountCheckerLocal;
 import ch.heigvd.amt.gamification.services.security.SecurityManager;
-import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -21,9 +22,6 @@ public class RegisterServlet extends HttpServlet {
 
     @EJB
     private IAccountDAOLocal accountDAO;
-
-    @EJB
-    private IFlashBagLocal flashBag;
 
     @EJB
     private SecurityManager manager;
@@ -43,8 +41,9 @@ public class RegisterServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        Account account = manager.createAccount();
-        String password = accountChecker.getPassword(request);
+        FlashBag flashBag   = ServletUtil.getFlashBag(request);
+        Account account     = manager.createAccount();
+        String password     = accountChecker.getPassword(request);
         accountChecker.populate(request, account);
 
         Map<String, String> errors  = new HashMap<>();

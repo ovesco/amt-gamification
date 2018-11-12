@@ -19,8 +19,6 @@
 
 <body class="bg-default">
 
-    <%@include file="../includes/notifications.jsp" %>
-
     <div class="main-content">
         <div class="container">
             <div class="row justify-content-center">
@@ -67,5 +65,5 @@
         </div>
     </div>
 
-</body>
-</html>
+    <%@include file="../includes/notifications.jsp" %>
+    <%@include file="../includes/footer.jsp" %>
