@@ -23,7 +23,7 @@ public class ApplicationsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Integer page            = ServletUtil.getInt(request.getParameter("page"), 1);
-        Integer resultsPerPage  = ServletUtil.getInt(request.getParameter("amount"), 10);
+        Integer resultsPerPage  = ServletUtil.getInt(request.getParameter("amount"), 5);
         Long devId              = ServletUtil.getAccountId(request);
         List<Application> apps  = applicationDAO.findDeveloperApps(devId, page-1, resultsPerPage);
         Long amountOfApps       = applicationDAO.countDeveloperApps(devId);

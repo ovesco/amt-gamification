@@ -10,7 +10,9 @@ public class Account extends BaseEntity<Long> {
 
     private String email;
 
-    private String password;
+    private byte[] password;
+
+    private byte[] salt;
 
     private String firstName;
 
@@ -32,14 +34,6 @@ public class Account extends BaseEntity<Long> {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -96,5 +90,21 @@ public class Account extends BaseEntity<Long> {
 
     public void setBanned(Boolean banned) {
         this.banned = banned;
+    }
+
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
     }
 }

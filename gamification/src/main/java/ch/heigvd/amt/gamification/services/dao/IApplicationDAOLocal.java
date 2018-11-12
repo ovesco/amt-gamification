@@ -11,4 +11,6 @@ public interface IApplicationDAOLocal extends IGenericDAO<Application, Long> {
     public List<Application> findDeveloperApps(Long id, Integer page, Integer amount);
 
     public Long countDeveloperApps(Long id);
+
+    public void delete(Application application) throws EntityNotFoundException;
 }

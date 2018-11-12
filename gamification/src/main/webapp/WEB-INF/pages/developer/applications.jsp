@@ -47,10 +47,10 @@
                                         <td>${app.apiKey}</td>
                                         <td>${app.apiSecret}</td>
                                         <td>
-                                            <a href="/game/account/application?action=update&appId=${app.id}" class="btn btn-icon btn-primary btn-sm">
+                                            <a href="/game/developer/application?action=update&appId=${app.id}" class="btn btn-icon btn-primary btn-sm">
                                                 <span class="btn-inner--icon"><i class="ni ni-settings-gear-65"></i></span>
                                             </a>
-                                            <a href="/game/account/application?action=delete&appId=${app.id}" class="btn btn-icon btn-danger btn-sm">
+                                            <a href="/game/developer/application?action=delete&appId=${app.id}" class="btn btn-icon btn-danger btn-sm">
                                                 <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
                                             </a>
                                         </td>

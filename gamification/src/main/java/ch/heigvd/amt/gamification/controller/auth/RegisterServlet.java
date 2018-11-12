@@ -1,8 +1,10 @@
 package ch.heigvd.amt.gamification.controller.auth;
 
 import ch.heigvd.amt.gamification.Model.entity.Account;
-import ch.heigvd.amt.gamification.Util.DeveloperValidator;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
+import ch.heigvd.amt.gamification.services.security.IAccountCheckerLocal;
+import ch.heigvd.amt.gamification.services.security.SecurityManager;
+import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -18,7 +20,16 @@ import java.util.Map;
 public class RegisterServlet extends HttpServlet {
 
     @EJB
-    private IAccountDAOLocal DeveloperDAO;
+    private IAccountDAOLocal accountDAO;
+
+    @EJB
+    private IFlashBagLocal flashBag;
+
+    @EJB
+    private SecurityManager manager;
+
+    @EJB
+    private IAccountCheckerLocal accountChecker;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,25 +43,36 @@ public class RegisterServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        DeveloperValidator validator = new DeveloperValidator(request);
-        validator.populate();
-        validator.handlePassword();
-        Account account = validator.getDeveloper();
+        Account account = manager.createAccount();
+        String password = accountChecker.getPassword(request);
+        accountChecker.populate(request, account);
+
+        Map<String, String> errors  = new HashMap<>();
+        accountChecker.validateNotEmpty(errors, account);
+        accountChecker.validatePassword(errors, password);
+        accountChecker.checkEmailTaken(errors, account.getEmail(), null);
 
         // No errors, go to auth
-        if(validator.getErrors().size() == 0) {
-            DeveloperDAO.create(account);
+        if(errors.size() == 0) {
+
+            account.setPassword(manager.hash(account, password));
+            accountDAO.create(account);
+            flashBag.success("Account created, please login");
             response.sendRedirect(request.getContextPath() + "/auth/login");
         }
 
         // Errors found, show back form
         else {
-            Map<String, String> errors = request.getMethod().toUpperCase().equals("GET")
-                    ? new HashMap<String, String>()
-                    : validator.getErrors();
 
+            Map<String, String> problems = request.getMethod().equalsIgnoreCase("GET")
+                    ? new HashMap<String, String>() : errors;
+
+            for(String field : problems.keySet())
+                System.out.println("CONTAINS: " + field);
+
+            flashBag.warning("Some errors appeared, please review form");
             request.setAttribute("dev", account);
-            request.setAttribute("errors", errors);
+            request.setAttribute("errors", problems);
             request.getRequestDispatcher("/WEB-INF/pages/auth/register.jsp").forward(request, response);
         }
     }
