@@ -14,9 +14,5 @@ module.exports = {
 
   logout(){
     I.click(this.logoutButton);
-  },
-
-  createNewApp(){
-    I.click(this.newApplicationButton);
   }
 }
