@@ -5,8 +5,6 @@ module.exports = {
 
 
   fields: {
-    email: 'email',
-    password: 'password',
   },
   myApplicationsButton: 'Applications',
   newApplicationButton: 'New application',
@@ -16,5 +14,9 @@ module.exports = {
 
   logout(){
     I.click(this.logoutButton);
+  },
+
+  createNewApp(){
+    I.click(this.newApplicationButton);
   }
 }
