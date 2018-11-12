@@ -6,34 +6,32 @@ import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
 
 import javax.ejb.EJB;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter
-public class AdminSecurityFilter extends  BaseSecurityFilter {
+public class BanFilter extends BaseSecurityFilter {
 
     @EJB
     IAccountDAOLocal accountDAO;
 
     @Override
     protected String getProtectedPath() {
-        return "/admin";
+        return "";
     }
 
     @Override
     Boolean accessGranted(HttpServletRequest request, HttpServletResponse response) {
-        Long id = ServletUtil.getAccountId(request);
+
+        Long currentId  = ServletUtil.getAccountId(request);
+
+        if(currentId == null)
+            return true; // Well, user is not banned
 
         try {
-            if(id != null) {
-                Account account = accountDAO.find(id);
-                return account.getAdmin();
-            }
-            else {
-                return false;
-            }
+            Account account = accountDAO.find(currentId);
+            return !account.getBanned();
         } catch (EntityNotFoundException e) {
+            // No user exists, invalidate session
             return false;
         }
     }

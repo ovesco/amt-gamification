@@ -8,6 +8,7 @@ import ch.heigvd.amt.gamification.services.security.SecurityManager;
 import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
 
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +24,9 @@ public class LoginServlet extends HttpServlet {
 
     @EJB
     private SecurityManager securityManager;
+
+    @EJB
+    private IFlashBagLocal flashbag;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,8 +44,8 @@ public class LoginServlet extends HttpServlet {
         String target   = ServletUtil.getString(request.getParameter("targetUrl"), null);
         String error    = null;
 
-        System.out.println(email);
-        System.out.println(password);
+        flashbag.info("much swag");
+
         if(target == null)
             target = "/developer/applications";
         target = request.getContextPath() + target;

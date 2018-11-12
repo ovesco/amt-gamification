@@ -3,6 +3,7 @@ package ch.heigvd.amt.gamification.controller.developer;
 import ch.heigvd.amt.gamification.Model.entity.Account;
 import ch.heigvd.amt.gamification.Model.entity.Application;
 import ch.heigvd.amt.gamification.Util.CRUD;
+import ch.heigvd.amt.gamification.Util.SecurityToken;
 import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IApplicationDAOLocal;
@@ -56,7 +57,7 @@ public class ApplicationCRUDServlet extends HttpServlet {
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        Long devId   = (Long)request.getSession().getAttribute("token");
+        Long devId   = (Long)request.getSession().getAttribute(SecurityToken.ACCOUNT_ID);
         Long appId   = ServletUtil.getLong(request.getParameter("appId"), null);
 
         try {
@@ -82,6 +83,8 @@ public class ApplicationCRUDServlet extends HttpServlet {
         String action           = ServletUtil.getString(request.getParameter("action"), CRUD.CREATE);
         String appName          = ServletUtil.getString(request.getParameter("name"), null);
         String appDescription   = ServletUtil.getString(request.getParameter("description"), null);
+
+        System.out.println(action);
 
         try {
 

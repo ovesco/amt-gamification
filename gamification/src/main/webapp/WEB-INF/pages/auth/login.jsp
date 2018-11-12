@@ -30,7 +30,8 @@
                             <div class="card-body px-lg-5 py-lg-5">
                                 <h2 class="text-center text-muted mb-4">Sign in</h2>
 
-                                <c:if test="${!request.method.equals('GET') && error != null}">
+
+                                <c:if test="${pageContext.request.method.equals('POST') && error != null}">
                                     <div class="alert alert-danger">
                                         <p class="m-0">${error}</p>
                                     </div>

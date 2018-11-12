@@ -1,10 +1,11 @@
 package ch.heigvd.amt.gamification.controller.developer;
 
 import ch.heigvd.amt.gamification.Model.entity.Account;
-import ch.heigvd.amt.gamification.Util.DeveloperValidator;
 import ch.heigvd.amt.gamification.Util.ServletUtil;
 import ch.heigvd.amt.gamification.services.dao.EntityNotFoundException;
 import ch.heigvd.amt.gamification.services.dao.IAccountDAOLocal;
+import ch.heigvd.amt.gamification.services.security.AccountChecker;
+import ch.heigvd.amt.gamification.services.security.IAccountCheckerLocal;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -21,6 +22,9 @@ public class ProfileServlet extends HttpServlet {
 
     @EJB
     IAccountDAOLocal accountDAO;
+
+    @EJB
+    IAccountCheckerLocal accountChecker;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,13 +46,17 @@ public class ProfileServlet extends HttpServlet {
         try {
 
             Account account = accountDAO.find(ServletUtil.getAccountId(request));
-            DeveloperValidator validator = new DeveloperValidator(request, account);
-            validator.populate();
-            Map<String, String> errors   = validator.getErrors().size() > 0 ? validator.getErrors() : new HashMap<String, String>();
+            String newEmail = request.getParameter(AccountChecker.EMAIL);
+            String oldEmail = account.getEmail();
+
+            accountChecker.populate(request, account);
+            Map<String, String> errors = new HashMap<>();
+            accountChecker.validateNotEmpty(errors, account);
+            accountChecker.checkEmailTaken(errors, newEmail, oldEmail);
 
             request.setAttribute("dev", account);
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("/WEB-INF/pages/account/profile.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/developer/profile.jsp").forward(request, response);
 
         } catch (EntityNotFoundException e) {
             throw new ServletException();

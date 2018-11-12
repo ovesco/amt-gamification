@@ -22,7 +22,7 @@ abstract public class BaseSecurityFilter implements Filter {
     abstract Boolean accessGranted(HttpServletRequest request, HttpServletResponse response);
 
     protected void accessDeniedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/auth/login");
+        response.sendRedirect(request.getContextPath() + "/auth/logout"); // Invalidate session and log in
     }
 
     @Override

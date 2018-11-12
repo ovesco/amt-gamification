@@ -12,7 +12,7 @@ public class DeveloperSecurityFilter extends BaseSecurityFilter {
 
     @Override
     Boolean accessGranted(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("DEVELOPER SECURITY FILTER");
+
         return ServletUtil.getAccountId(request) != null;
     }
 }

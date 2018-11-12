@@ -2,9 +2,10 @@ package ch.heigvd.amt.gamification.services.session;
 
 import javax.ejb.Stateful;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-@Stateful
+@Stateful(name = "flashbag")
 public class FlashBag implements IFlashBagLocal {
 
     private List<IFlashMessage> messages = new ArrayList<>();
@@ -28,13 +29,16 @@ public class FlashBag implements IFlashBagLocal {
     @Override
     public IFlashMessage[] getMessages() {
 
-        IFlashMessage[] result = (IFlashMessage[])messages.toArray();
+        System.out.println("AMOUNT OF MESSAGES: " + messages.size());
+        IFlashMessage[] result = Arrays.copyOf(messages.toArray(), messages.size(), IFlashMessage[].class);
         messages.clear();
         return result;
     }
 
     private void addFlash(String type, String message) {
+        System.out.println("FLASH ADDED: " + message);
         messages.add(new FlashMessage(type, message));
+        System.out.println(messages.size());
     }
 
     class FlashMessage implements IFlashMessage {
@@ -43,7 +47,7 @@ public class FlashBag implements IFlashBagLocal {
 
         private String message;
 
-        public FlashMessage(String type, String message) {
+        FlashMessage(String type, String message) {
 
             this.type = type;
             this.message = message;
