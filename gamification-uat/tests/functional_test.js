@@ -3,7 +3,7 @@ let usersData = require('../users.js');
 Feature('TESTING_FUNCTIONAL');
 
 Scenario('Devlopper creates account', (I, registerPage, loginPage) => {
-    let user = usersData.users[0];
+    let user = usersData.users[1];
 
     I.amOnPage(registerPage.url);
     registerPage.register(user.email, user.firstName, user.lastName, user.street,user.npa, user.city, user.password);
@@ -11,7 +11,7 @@ Scenario('Devlopper creates account', (I, registerPage, loginPage) => {
 });
 
 Scenario('Devlopper logs in', (I, loginPage, applicationsPage) =>{
-    let user = usersData.users[0];
+    let user = usersData.users[1];
 
     I.amOnPage(loginPage.url);
     loginPage.signIn(user.email, user.password);
@@ -20,7 +20,7 @@ Scenario('Devlopper logs in', (I, loginPage, applicationsPage) =>{
 });
 
 Scenario('Devlopper creates 25 apps',(I, loginPage, applicationsPage, applicationPage) =>{
-    let user = usersData.users[0];
+    let user = usersData.users[1];
 
     I.amOnPage(loginPage.url);
     loginPage.signIn(user.email, user.password);
