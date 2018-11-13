@@ -25,7 +25,7 @@
                 <div class="col-lg-5 col-md-7">
                     <div style="height:100vh;" class="d-flex align-items-center">
                         <div class="card bg-secondary shadow border-0" style="width:100%;">
-                            <div class="card-body px-lg-5 py-lg-5">
+                            <div class="card-body px-lg-5 pt-lg-5 pb-lg-4">
                                 <h2 class="text-center text-muted mb-4">Sign in</h2>
 
 
@@ -54,6 +54,9 @@
                                     <div class="text-center">
                                         <a class="btn btn-secondary" href="/game/auth/register">Register</a>
                                         <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="/game/auth/forgot-password" class="text-xs">Forgot password?</a>
                                     </div>
                                 </form>
                             </div>
