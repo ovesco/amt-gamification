@@ -1,7 +1,5 @@
 package ch.heigvd.amt.gamification.Util;
 
-import ch.heigvd.amt.gamification.services.session.IFlashBagLocal;
-
 import javax.servlet.http.HttpServletRequest;
 
 public class ServletUtil {
@@ -26,7 +24,7 @@ public class ServletUtil {
         return field == null || field.isEmpty() ? def : Long.valueOf(field);
     }
 
-    public static IFlashBagLocal getFlashBag() {
-        return null;
+    public static FlashBag getFlashBag(HttpServletRequest request) {
+        return new FlashBag(request.getSession());
     }
 }
