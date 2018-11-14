@@ -25,7 +25,7 @@ Scenario('Register fails if email is not valide', (I, registerPage) => {
 
     I.amOnPage(registerPage.url);
     registerPage.register("", user.firstName, user.lastName, user.street,user.npa, user.city,user.password);
-    I.see('Not an email address');
+    I.amOnPage(registerPage.url);
 })
 
 
@@ -68,4 +68,13 @@ Scenario('Register Success with valide informaiton', (I, loginPage, registerPage
     loginPage.signIn(user.email,user.password);
     I.seeInCurrentUrl(applicationsPage.url);
     I.see('My registered apps');
+})
+
+Scenario('Register fails if email already taken)', (I, registerPage) => {
+    let user = usersData.users[0];
+
+    I.amOnPage(registerPage.url);
+    registerPage.register(user.email, user.firstName, user.lastName, user.street,user.npa, user.city, user.password);
+    I.seeInCurrentUrl(registerPage.url);
+    I.see('Email already taken');
 })

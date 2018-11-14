@@ -16,7 +16,7 @@ Scenario('Login fails with wrong credentials', (I, loginPage) => {
 
     loginPage.signIn('fake@email.com', 'wrong password');
 
-    I.see('Incorrect credentials provided');
+    I.seeInCurrentUrl(loginPage.url);
 });
 /*
 Scenario('Login succeeds with correct credentials', (I, loginPage, registerPage) => {

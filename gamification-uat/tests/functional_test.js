@@ -42,5 +42,19 @@ Scenario('Devlopper creates 25 apps',(I, loginPage, applicationsPage, applicatio
         I.see(`App description ${i+1}`);
     }
 
-    
+});
+
+Scenario('Developper logout needs to log back in ',(I, loginPage, applicationsPage, applicationPage) =>{
+    let user = usersData.users[1];
+
+    I.amOnPage(loginPage.url);
+    loginPage.signIn(user.email, user.password);
+    I.seeInCurrentUrl(applicationsPage.url);
+    I.see('Applications');
+
+    I.click(applicationsPage.logoutButton);
+    I.seeInCurrentUrl(loginPage.url);
+
+    I.amOnPage(applicationPage.url);
+    I.seeInCurrentUrl(loginPage.url);
 });
