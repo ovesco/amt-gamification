@@ -51,26 +51,36 @@ public class ResetPasswordServlet extends HttpServlet {
         }
         else {
 
-            Account account = accountDAO.findByEmail(email);
+            try {
 
-            if(account != null) {
+                Account account = accountDAO.findByEmail(email);
 
-                if(account.getNpa().equals(npa) && account.getCity().equals(city)) {
-                    ResetMailThread action = new ResetMailThread(account);
-                    action.start(); // Run mail sending in another thread
+                if (account != null) {
 
-                    if(accountId == null)
-                        bag.info("Password has been reset, check your mails!");
-                    else
-                        bag.info("Password for email " + email + " has been reset");
+                    if (account.getNpa().equals(npa) && account.getCity().equals(city)) {
+
+                        String newPassword  = UUID.randomUUID().toString();
+                        account.setPassword(securityManager.hash(account, newPassword));
+                        account.setForceChangePassword(true);
+                        accountDAO.update(account);
+
+                        ResetMailThread action = new ResetMailThread(newPassword, account.getEmail());
+                        action.start(); // Run mail sending in another thread
+
+                        if (accountId == null)
+                            bag.info("Password has been reset, check your mails!");
+                        else
+                            bag.info("Password for email " + email + " has been reset");
+                    } else
+                        bag.warning("Npa or city not correct!");
                 }
-                else
-                    bag.warning("Npa or city not correct!");
-            }
 
-            // Account not found
-            else {
-                bag.danger("No account exist with email " + email);
+                // Account not found
+                else {
+                    bag.danger("No account exist with email " + email);
+                }
+            } catch (EntityNotFoundException e) {
+                throw new ServletException(e);
             }
         }
 
@@ -80,27 +90,26 @@ public class ResetPasswordServlet extends HttpServlet {
 
     class ResetMailThread extends Thread
     {
-        private Account account;
+        private String password;
 
-        ResetMailThread(Account account) {
-            this.account    = account;
+        private String email;
+
+        ResetMailThread(String password, String email) {
+            this.password   = password;
+            this.email      = email;
         }
 
         @Override
         public void run() {
             try {
-                String newPassword  = UUID.randomUUID().toString();
-                account.setPassword(securityManager.hash(account, newPassword));
-                accountDAO.update(account);
-
                 // Send email
                 String builder = "Hi, your password has been reset.\n" +
-                        "Here is your new password: " + newPassword + "\n" +
+                        "Here is your new password: " + password + "\n" +
                         "We hope too see you soon back!";
 
-                emailSender.sendMail(account.getEmail(), "Password reinitialized", builder);
+                emailSender.sendMail(email, "Password reinitialized", builder);
 
-            } catch (EntityNotFoundException | MessagingException e) {
+            } catch (MessagingException e) {
                 e.printStackTrace();
             }
         }
