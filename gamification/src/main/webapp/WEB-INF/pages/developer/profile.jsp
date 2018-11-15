@@ -15,6 +15,11 @@
                 </div>
             </div>
         </div>
+
+        <div class="container-fluid d-flex justify-content-end">
+            <a href="/game/developer/change-password" class="btn btn-secondary">Change password</a>
+        </div>
+
     </div>
     <!-- Page content -->
     <div class="container-fluid mt--7">

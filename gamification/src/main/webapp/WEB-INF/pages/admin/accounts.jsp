@@ -71,7 +71,7 @@
                                             </c:otherwise>
                                         </c:choose>
 
-                                        <a href="/game/admin/reset-password?email=${account.email}&npa=${account.npa}&city=${account.city}" class="btn btn-danger btn-icon btn-sm" title="Reset password">
+                                        <a href="/game/auth/reset-password?email=${account.email}&npa=${account.npa}&city=${account.city}" class="btn btn-danger btn-icon btn-sm" title="Reset password">
                                             <span class="btn-inner--icon"><i class="ni ni-key-25"></i></span>
                                         </a>
 
