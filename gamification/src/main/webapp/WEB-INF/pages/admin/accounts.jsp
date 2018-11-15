@@ -75,7 +75,7 @@
                                             <span class="btn-inner--icon"><i class="ni ni-key-25"></i></span>
                                         </a>
 
-                                        <a href="/game/admin/delete?accountId=${account.id}" class="btn btn-danger btn-icon btn-sm" title="Delete account">
+                                        <a href="/game/admin/delete?accountId=${account.id}" name="delete-${account.email}" class="btn btn-danger btn-icon btn-sm" title="Delete account">
                                             <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
                                         </a>
                                     </td>

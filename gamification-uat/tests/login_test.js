@@ -18,10 +18,3 @@ Scenario('Login fails with wrong credentials', (I, loginPage) => {
 
     I.seeInCurrentUrl(loginPage.url);
 });
-/*
-Scenario('Login succeeds with correct credentials', (I, loginPage, registerPage) => {
-    I.amOnPage(registerPage.url);
-    let user = JSON.parse(jsonUsers)[0];
-    registerPage.register(user.email, user.firstName, user.lastName, user.street,user.npa, user.city, "1234567");
-})
-*/

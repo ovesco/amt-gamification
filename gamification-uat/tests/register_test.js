@@ -6,7 +6,7 @@ Scenario('Register page is available', (I, registerPage) => {
     registerPage.validate();
 });
 
-Scenario('Register page form has correct fields', (I, registerPage) =>{
+Scenario('Register page form has correct fields', (I, registerPage) => {
     registerPage.validateFields();
 });
 
@@ -15,7 +15,7 @@ Scenario('Register fails if password is less than 8 characters', (I, registerPag
     let user = usersData.users[0];
 
     I.amOnPage(registerPage.url);
-    registerPage.register(user.email, user.firstName, user.lastName, user.street,user.npa, user.city, "1234567");
+    registerPage.register(user.email, user.firstName, user.lastName, user.street, user.npa, user.city, "1234567");
     I.see('Password must be at least 8 characters long');
 })
 
@@ -24,7 +24,7 @@ Scenario('Register fails if email is not valide', (I, registerPage) => {
     let user = usersData.users[0];
 
     I.amOnPage(registerPage.url);
-    registerPage.register("", user.firstName, user.lastName, user.street,user.npa, user.city,user.password);
+    registerPage.register("", user.firstName, user.lastName, user.street, user.npa, user.city, user.password);
     I.amOnPage(registerPage.url);
 })
 
@@ -34,7 +34,7 @@ Scenario('Register fails a field is ommited', (I, registerPage) => {
     let user = usersData.users[0];
 
     I.amOnPage(registerPage.url);
-    registerPage.register(user.email, "", user.lastName, user.street,user.npa, user.city,user.password);
+    registerPage.register(user.email, "", user.lastName, user.street, user.npa, user.city, user.password);
     I.see('This field is mandatory');
 
     I.fillField(registerPage.fields.firstName, user.firstName);
@@ -62,10 +62,10 @@ Scenario('Register Success with valide informaiton', (I, loginPage, registerPage
     let user = usersData.users[0];
 
     I.amOnPage(registerPage.url);
-    registerPage.register(user.email, user.firstName, user.lastName, user.street,user.npa, user.city, user.password);
+    registerPage.register(user.email, user.firstName, user.lastName, user.street, user.npa, user.city, user.password);
     I.seeInCurrentUrl(loginPage.url);
 
-    loginPage.signIn(user.email,user.password);
+    loginPage.signIn(user.email, user.password);
     I.seeInCurrentUrl(applicationsPage.url);
     I.see('My registered apps');
 })
@@ -74,7 +74,21 @@ Scenario('Register fails if email already taken)', (I, registerPage) => {
     let user = usersData.users[0];
 
     I.amOnPage(registerPage.url);
-    registerPage.register(user.email, user.firstName, user.lastName, user.street,user.npa, user.city, user.password);
+    registerPage.register(user.email, user.firstName, user.lastName, user.street, user.npa, user.city, user.password);
     I.seeInCurrentUrl(registerPage.url);
     I.see('Email already taken');
 })
+
+
+Scenario('Delete test account', (I, loginPage) => {
+    let user = usersData.users[0];
+    // make user admin so he can delete the other users in db
+    I.amOnPage(`/auth/temp-admin?email=${user.email}`);
+    I.see('OK');
+
+    I.amOnPage(loginPage.url);
+    loginPage.signIn(user.email, user.password);
+    I.click('Accounts');
+    I.click({name: `delete-${user.email}`});
+    I.seeInCurrentUrl(loginPage.url);
+});

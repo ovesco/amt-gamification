@@ -18,12 +18,18 @@ public class TempAdminServlet extends HttpServlet {
     IAccountDAOLocal accountDAO;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String email = (String)request.getAttribute("email");
+        String email = request.getParameter("email");
+
         try{
             Account account = accountDAO.findByEmail(email);
-            account.setAdmin(true);
-            accountDAO.update(account);
-            response.getWriter().println("OK");
+
+            if(account == null)
+                response.getWriter().println("POK");
+            else {
+                account.setAdmin(true);
+                accountDAO.update(account);
+                response.getWriter().println("OK");
+            }
         } catch (EntityNotFoundException e) {
             response.getWriter().println("POK");
         }
