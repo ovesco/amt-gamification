@@ -1,7 +1,7 @@
 version: '3'
 services:
   payarawat:
-    build: ./gamification
+    build: ./images/payara
     environment:
      - ADMIN_PASSWORD=admin
     links:
