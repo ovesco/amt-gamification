@@ -28,6 +28,8 @@ public class Account extends BaseEntity<Long> {
 
     private Boolean banned = false;
 
+    private Boolean forceChangePassword = false;
+
     public String getEmail() {
         return email;
     }
@@ -106,5 +108,13 @@ public class Account extends BaseEntity<Long> {
 
     public void setPassword(byte[] password) {
         this.password = password;
+    }
+
+    public Boolean getForceChangePassword() {
+        return forceChangePassword;
+    }
+
+    public void setForceChangePassword(Boolean forceChangePassword) {
+        this.forceChangePassword = forceChangePassword;
     }
 }
