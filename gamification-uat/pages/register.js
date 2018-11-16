@@ -55,5 +55,6 @@ module.exports = {
     I.amOnPage(this.url);
     I.see('Register');
     I.seeInCurrentUrl('/register');
-  }
+  },
+
 }

@@ -2,7 +2,7 @@
   "output": "./output",
   "helpers": {
     "Puppeteer": {
-      "url": "localhost:8080/game",
+      "url": "http://192.168.99.100:8080/game",
       "show": true
     }
   },
@@ -10,7 +10,9 @@
     "I": "./steps_file.js",
     "loginPage": "./pages/login.js",
     "registerPage": "./pages/register.js",
-    "applicationsPage": "./pages/applications.js"
+    "applicationsPage": "./pages/applications.js",
+    "profilePage": "./pages/profile.js",
+    "applicationPage": "./pages/application.js"
   },
   "mocha": {},
   "bootstrap": false,

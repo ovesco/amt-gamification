@@ -5,8 +5,6 @@ module.exports = {
 
 
   fields: {
-    email: 'email',
-    password: 'password',
   },
   myApplicationsButton: 'Applications',
   newApplicationButton: 'New application',
