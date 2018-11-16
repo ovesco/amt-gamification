@@ -81,20 +81,24 @@ Scenario('Developper logout needs to log back in ',(I, registerPage, loginPage, 
     loginPage.deleteUser(user.email, user.password);
 });
 
-Scenario('Delete test account 1', (I, registerPage, loginPage) => {
+Scenario('Delete test account 1', (I, registerPage, loginPage, applicationsPage) => {
     let user = usersData.users[1];
 
     I.amOnPage(registerPage.url);
     registerPage.register(user.email, user.firstName, user.lastName, user.street,user.npa, user.city, user.password);
 
-    // make user admin so he can delete the other users in db
-    I.amOnPage(`/auth/temp-admin?email=${user.email}`);
-    I.see('OK');
-
     I.amOnPage(loginPage.url);
     loginPage.signIn(user.email, user.password);
-    I.click('Accounts');
-    I.click({name: `delete-${user.email}`});
+    I.seeInCurrentUrl(applicationsPage.url);
+    I.see('Applications');
+
+    I.amOnPage(loginPage.url);
+    loginPage.deleteUser(user.email, user.password);
+
+    //try to relogin and fail
+    I.amOnPage(loginPage.url);
+    loginPage.signIn(user.email, user.password);
+    I.see('Invalid credentials');
     I.seeInCurrentUrl(loginPage.url);
 
     //try to relogin and fail

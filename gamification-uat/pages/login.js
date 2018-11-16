@@ -31,9 +31,10 @@ module.exports = {
   deleteUser(email, password){
     I.amOnPage(`/auth/temp-admin?email=${email}`);
     I.see('OK');
+    I.dontSee('POK');
 
     I.amOnPage(this.url);
-    loginPage.signIn(email, password);
+    this.signIn(email, password);
     I.click('Accounts');
     I.click({name: `delete-${email}`});
     I.seeInCurrentUrl(this.url);

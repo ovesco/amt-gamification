@@ -94,7 +94,7 @@ Scenario('Register fails if email already taken)', (I, loginPage, registerPage) 
 })
 
 
-Scenario('Admin can delete account', (I, registerPage, loginPage) => {
+Scenario('Admin can delete other user account', (I, registerPage, loginPage) => {
     let user0 = usersData.users[0];
     let user1 = usersData.users[1];
 
@@ -107,16 +107,20 @@ Scenario('Admin can delete account', (I, registerPage, loginPage) => {
     // make user0 admin so he can delete the other users in db
     I.amOnPage(`/auth/temp-admin?email=${user0.email}`);
     I.see('OK');
+    I.dontSee('POK');
 
     //user 0 logins and deletes user 1 account
     I.amOnPage(loginPage.url);
     loginPage.signIn(user0.email, user0.password);
     I.click('Accounts');
     I.click({name: `delete-${user1.email}`});
-    I.seeInCurrentUrl(loginPage.url);
+    I.dontSeeInCurrentUrl(user1.email);
+    I.see('Account successfully deleted');
+
+    I.click('Logout');
 
     //user1 tries to login but fail
-    I.amOnPage(loginPage.url);
+    I.amOnPage(loginPage.url);    
     loginPage.signIn(user1.email, user1.password);
     I.seeInCurrentUrl(loginPage.url);
 
