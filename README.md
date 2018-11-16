@@ -1,18 +1,25 @@
-# AMT-gamification
+# Gamification
+### Guillaume Hochet, Adrien Allemand, Loyse Krug & Vincent Guidoux
 
-## Step-by-step
+This project aims at giving the possibility for developers to include a gamification layer in their software.
 
-### Open Project
+## Technologies
+This tool is a full JavaEE installation which currently includes
+- Accounts and admins
+- Password retrieval
+- Notification system
+- Applications, API Keys
+- Personal profile
+- Automatic emails
 
-Open the project folder `amt-gamification` with intellij
+## How can this help you?
+Imagine you develop an online store where people can buy some products. You want your users to receive some insight
+and bonus based on how much they spend on your website, like levels or badges and earn rewards based on their profile.
 
-Setup a confguration to deploy it on PAYARA server domain1 so it uploads classes and resources. The artifact to reupload is `gamification:war exploded`
+### Enter gamification project
+Grab an API key from this project and start working with our API! We dont provide much currently, but much more
+will come! For example you'll be able to set custom rules based on what your customers buy, grant them points and more.
+You will be also able to define web hooks that the server will call whenever something happens, like one of your user
+earns a reward or something.
 
-### Start mysql docker
-
-In the folder `amt-gamification`, run the `docker-compose up` command to start the mysql server
-
-### Pages
-
-localhost:8080/game/auth/login
-
+Such game, much fun
