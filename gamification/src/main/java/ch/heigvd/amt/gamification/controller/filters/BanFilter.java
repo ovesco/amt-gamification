@@ -29,7 +29,12 @@ public class BanFilter extends BaseSecurityFilter {
 
         try {
             Account account = accountDAO.find(currentId);
-            return !account.getBanned();
+            if(account.getBanned()) {
+                ServletUtil.getFlashBag(request).warning("You have been banned!");
+                return false;
+            }
+
+            return true;
         } catch (EntityNotFoundException e) {
             // No user exists, invalidate session
             return false;
