@@ -23,3 +23,22 @@ You will be also able to define web hooks that the server will call whenever som
 earns a reward or something.
 
 Such game, much fun
+
+
+
+## Deploy
+
+After cloning the repo run the command `docker-compose up`
+
+(In case there is any modification in the code, run the `build.sh` script and  run the  `docker-compose up --build` )
+
+Finally, go to the adresse:
+
+http://192.168.99.100:8080/game/auth/login
+
+
+
+
+
+
+
