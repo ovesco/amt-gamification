@@ -18,7 +18,7 @@ module.exports = {
     I.click(this.signInButton);
   },
 
-  register() {
+  goToRegisterPage() {
     I.click(this.registerButton);
   },
 
@@ -26,5 +26,17 @@ module.exports = {
     I.amOnPage(this.url);
     I.see('Sign in');
     I.seeInCurrentUrl('/login');
+  },
+
+  deleteUser(email, password){
+    I.amOnPage(`/auth/temp-admin?email=${email}`);
+    I.see('OK');
+
+    I.amOnPage(this.url);
+    loginPage.signIn(email, password);
+    I.click('Accounts');
+    I.click({name: `delete-${email}`});
+    I.seeInCurrentUrl(this.url);
   }
+
 }

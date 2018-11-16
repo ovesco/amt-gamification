@@ -35,6 +35,7 @@ Scenario('Register fails a field is ommited', (I, registerPage) => {
 
     I.amOnPage(registerPage.url);
     registerPage.register(user.email, "", user.lastName, user.street, user.npa, user.city, user.password);
+    
     I.see('This field is mandatory');
 
     I.fillField(registerPage.fields.firstName, user.firstName);
@@ -68,27 +69,57 @@ Scenario('Register Success with valide informaiton', (I, loginPage, registerPage
     loginPage.signIn(user.email, user.password);
     I.seeInCurrentUrl(applicationsPage.url);
     I.see('My registered apps');
+
+    I.amOnPage(loginPage.url);
+    loginPage.deleteUser(user.email, user.password);
+
 })
 
-Scenario('Register fails if email already taken)', (I, registerPage) => {
+Scenario('Register fails if email already taken)', (I, loginPage, registerPage) => {
     let user = usersData.users[0];
 
+    //create user once
+    I.amOnPage(registerPage.url);
+    registerPage.register(user.email, user.firstName, user.lastName, user.street, user.npa, user.city, user.password);
+
+    //recreate user 
     I.amOnPage(registerPage.url);
     registerPage.register(user.email, user.firstName, user.lastName, user.street, user.npa, user.city, user.password);
     I.seeInCurrentUrl(registerPage.url);
     I.see('Email already taken');
+
+    //delete user
+    I.amOnPage(loginPage.url);
+    loginPage.deleteUser(user.email, user.password);
 })
 
 
-Scenario('Delete test account', (I, loginPage) => {
-    let user = usersData.users[0];
-    // make user admin so he can delete the other users in db
-    I.amOnPage(`/auth/temp-admin?email=${user.email}`);
+Scenario('Admin can delete account', (I, registerPage, loginPage) => {
+    let user0 = usersData.users[0];
+    let user1 = usersData.users[1];
+
+    //two users are created
+    I.amOnPage(registerPage.url);
+    registerPage.register(user0.email, user0.firstName, user0.lastName, user0.street, user0.npa, user0.city, user0.password);
+    I.amOnPage(registerPage.url);
+    registerPage.register(user1.email, user1.firstName, user1.lastName, user1.street, user1.npa, user1.city, user1.password);
+
+    // make user0 admin so he can delete the other users in db
+    I.amOnPage(`/auth/temp-admin?email=${user0.email}`);
     I.see('OK');
 
+    //user 0 logins and deletes user 1 account
     I.amOnPage(loginPage.url);
-    loginPage.signIn(user.email, user.password);
+    loginPage.signIn(user0.email, user0.password);
     I.click('Accounts');
-    I.click({name: `delete-${user.email}`});
+    I.click({name: `delete-${user1.email}`});
     I.seeInCurrentUrl(loginPage.url);
+
+    //user1 tries to login but fail
+    I.amOnPage(loginPage.url);
+    loginPage.signIn(user1.email, user1.password);
+    I.seeInCurrentUrl(loginPage.url);
+
+    //delete user
+    loginPage.deleteUser(user0.email, user0.password);
 });
