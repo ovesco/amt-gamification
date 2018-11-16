@@ -6,7 +6,7 @@ Scenario('Login page is available', (I, loginPage) => {
 
 Scenario('Login page can redirect to register', (I, loginPage) => {
     I.amOnPage(loginPage.url);
-    loginPage.register();
+    loginPage.goToRegisterPage();
     I.see('Register');
     I.seeInCurrentUrl('/register');
 });
