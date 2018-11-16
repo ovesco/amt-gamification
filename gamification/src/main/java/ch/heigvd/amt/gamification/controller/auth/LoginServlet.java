@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
             target = "/developer/applications";
         target = request.getContextPath() + target;
 
-        if(email != null) {
+        if(email != null && password != null) {
 
             Account account = developerDAO.findByEmail(email);
 
@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         else
-            error = "Empty email provided";
+            error = "Empty email or password provided";
 
         if(error != null) {
             request.setAttribute("error", error);
